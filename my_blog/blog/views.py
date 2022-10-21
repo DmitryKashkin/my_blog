@@ -4,8 +4,13 @@ from django.views import View
 from django.views.generic import DetailView
 
 
-class index(View):
+class Index(View):
 
     def get(self, request, *args, **kwargs):
+        return render(request, 'blog/index.html')
 
-        return render(request,'blog/index.html')
+
+class Category(View):
+
+    def get(self, request, *args, **kwargs):
+        return render(request, 'blog/category.html')
