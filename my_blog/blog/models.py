@@ -1,5 +1,5 @@
 from django.db import models
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 '''
 Category
@@ -24,7 +24,7 @@ class Category(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse ('category', kwargs={'slug': self.slug})
+        return reverse('category', kwargs={'slug': self.slug})
 
     class Meta:
         ordering = ['title']
@@ -54,6 +54,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse_lazy('post', kwargs={'slug': self.slug})
 
     class Meta:
         ordering = ['-created_at']
