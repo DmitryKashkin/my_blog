@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from django.views import View
 from django.views.generic import DetailView, ListView
+from django.db.models import F
 
 from blog.models import *
 
@@ -18,19 +18,54 @@ class Home(ListView):
         return context
 
 
-# class Index(View):
-#
-#     def get(self, request, *args, **kwargs):
-#         return render(request, 'blog/index.html')
+class PostByCategory(ListView):
+    model = Post
+    template_name = 'blog/category.html'
+    context_object_name = 'posts'
+    paginate_by = 4
+    allow_empty = False
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = Category.objects.get(slug=self.kwargs['slug'])
+        return context
+
+    def get_queryset(self):
+        return Post.objects.filter(
+            category__slug=self.kwargs['slug'],
+        )
 
 
-class Category(View):
+class PostView(DetailView):
+    model = Post
+    context_object_name = 'post'
+    template_name = 'blog/single.html'
 
-    def get(self, request, *args, **kwargs):
-        return render(request, 'blog/category.html')
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.object.views = F('views') + 1
+        self.object.save()
+        self.object.refresh_from_db()
+        return context
 
 
-class Post(View):
+
+
+
+
+
+class Index(View):
 
     def get(self, request, *args, **kwargs):
         return render(request, 'blog/index.html')
+
+# class Category(View):
+#
+#     def get(self, request, *args, **kwargs):
+#         return render(request, 'blog/category.html')
+
+
+# class Post(View):
+#
+#     def get(self, request, *args, **kwargs):
+#         return render(request, 'blog/index.html')
