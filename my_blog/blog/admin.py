@@ -34,7 +34,7 @@ class PostAdmin(admin.ModelAdmin):
                     'created_at', 'get_photo', 'views')
     list_display_links = ('id', 'title')
     search_fields = ('title', 'content')
-    list_filter = ('category',)
+    list_filter = ('category', 'tags',)
     fields = (
         'title', 'slug', 'category', 'tags', 'author', 'content', 'photo',
         'get_photo', 'views', 'created_at',
