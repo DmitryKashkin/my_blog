@@ -1,18 +1,6 @@
-{#{% load static %}#}
-{#<!DOCTYPE html>#}
-{#<html lang="en">#}
-{##}
-{#{% include 'inc/_head.html' %}#}
-{##}
-{#<body>#}
-{#    <div class="wrapper">#}
-{##}
-{#        {% include 'inc/_header.html' %}#}
-
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}{{ title }} :: {{ block.super }}{% endblock %}
-
 {% block content %}
 
     <section class="single-blog-area">
@@ -267,15 +255,3 @@
 
 {% endblock %}
 
-{#        {% include 'inc/_footer.html' %}#}
-{##}
-{#    </div>#}
-{#    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>#}
-{#    <script src="{% static 'js/isotope.pkgd.js' %}"></script>#}
-{#    <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>#}
-{#    <script src="{% static 'js/bootstrap.min.js' %}"></script>#}
-{#    <script src="{% static 'js/owl.carousel.min.js' %}"></script>#}
-{#    <script src="{% static 'js/active.js' %}"></script>#}
-{#</body>#}
-{##}
-{#</html>#}

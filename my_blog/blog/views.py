@@ -62,6 +62,7 @@ class PostView(DetailView):
         self.object.views = F('views') + 1
         self.object.save()
         self.object.refresh_from_db()
+        context['title'] = self.object
         return context
 
 
