@@ -31,7 +31,7 @@ class PostAdmin(admin.ModelAdmin):
     save_on_top = True
     prepopulated_fields = {'slug': ('title',)}
     list_display = ('id', 'title', 'slug', 'category',
-                    'created_at', 'get_photo', 'views')
+                    'created_at', 'get_photo', 'views',)
     list_display_links = ('id', 'title')
     search_fields = ('title', 'content')
     list_filter = ('category', 'tags',)

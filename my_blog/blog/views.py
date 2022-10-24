@@ -19,11 +19,10 @@ class Home(ListView):
 
 
 class PostByCategory(ListView):
-    model = Post
     template_name = 'blog/category.html'
     context_object_name = 'posts'
     paginate_by = 4
-    allow_empty = False
+    allow_empty = False  # 404 если нет постов в категории
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -33,6 +32,23 @@ class PostByCategory(ListView):
     def get_queryset(self):
         return Post.objects.filter(
             category__slug=self.kwargs['slug'],
+        )
+
+
+class PostByTag(ListView):
+    template_name = 'blog/category.html'
+    context_object_name = 'posts'
+    paginate_by = 4
+    allow_empty = False  # Возврат 404 если нет тэга или тэг пустой
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = str(Tag.objects.get(slug=self.kwargs['slug']))
+        return context
+
+    def get_queryset(self):
+        return Post.objects.filter(
+            tags__slug=self.kwargs['slug'],
         )
 
 
@@ -47,11 +63,6 @@ class PostView(DetailView):
         self.object.save()
         self.object.refresh_from_db()
         return context
-
-
-
-
-
 
 
 class Index(View):
