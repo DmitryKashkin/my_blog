@@ -30,7 +30,7 @@ class PostAdmin(admin.ModelAdmin):
     save_as = True
     save_on_top = True
     prepopulated_fields = {'slug': ('title',)}
-    list_display = ('id', 'title', 'slug', 'category',
+    list_display = ('id', 'title', 'slug', 'category', 'get_tags',
                     'created_at', 'get_photo', 'views',)
     list_display_links = ('id', 'title')
     search_fields = ('title', 'content')
@@ -46,7 +46,13 @@ class PostAdmin(admin.ModelAdmin):
             return mark_safe(f'<img src="{obj.photo.url}" width="150">')
         return '-'
 
+    def get_tags(self, obj):
+        if obj.tags.all():
+            return ", ".join([tag.title for tag in obj.tags.all()])
+        return '-'
+
     get_photo.short_description = 'Фото'
+    get_tags.short_description = 'Tags'
 
 
 # class PostAdmin(admin.ModelAdmin):
