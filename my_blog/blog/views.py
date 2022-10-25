@@ -71,13 +71,18 @@ class Index(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'blog/index.html')
 
-# class Category(View):
-#
-#     def get(self, request, *args, **kwargs):
-#         return render(request, 'blog/category.html')
 
+class Search(ListView):
+    template_name = 'blog/search.html'
+    context_object_name = 'posts'
+    paginate_by = 4
 
-# class Post(View):
-#
-#     def get(self, request, *args, **kwargs):
-#         return render(request, 'blog/index.html')
+    def get_queryset(self):
+        return Post.objects.filter(
+            title__icontains=self.request.GET.get('s'),
+        )
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['s']=f"s={self.request.GET.get('s')}&"
+        return context
